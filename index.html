@@ -150,6 +150,142 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-nginx-jetty-https" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/04/27/nginx-jetty-https/">nginx jetty https</a>
+    </h1>
+  
+
+        
+        <a href="/2018/04/27/nginx-jetty-https/" class="archive-article-date">
+  	<time datetime="2018-04-27T02:26:19.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-04-27</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="nginx配置https"><a href="#nginx配置https" class="headerlink" title="nginx配置https"></a>nginx配置https</h2><pre><code>server {
+    listen 443 ssl;
+    server_name www.nbbdw.com;
+    ssl on;
+    ssl_certificate /home/sslkey/nbbdw.crt;
+    ssl_certificate_key /home/sslkey/nbbdw.key;
+
+    proxy_set_header Host $http_host;
+    proxy_set_header X-real-ip $remote_addr;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_set_header X-Forwarded-Proto $scheme;
+    proxy_set_header X-Http-scheme https;
+    proxy_redirect http:// $scheme://;
+
+    location / {
+            proxy_pass http://portalsite;
+    }
+  }
+</code></pre><h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><pre><code>nginx到jetty是http，request.getScheme()一直取到http；request.getRequestURL()也是http。
+</code></pre><h2 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h2><pre><code>修改jetty（9）的start.ini配置
+
+--module=http-forwarded
+
+完美解决。
+</code></pre><h2 id="实际用到"><a href="#实际用到" class="headerlink" title="实际用到"></a>实际用到</h2><pre><code>&lt;?xml version=&quot;1.0&quot;?&gt;
+ &lt;!DOCTYPE Configure PUBLIC &quot;-//Jetty//Configure//EN&quot; &quot;http://www.eclipse.org/jetty/configure_9_3.dtd&quot;&gt;
+ &lt;Configure id=&quot;httpConfig&quot; class=&quot;org.eclipse.jetty.server.HttpConfiguration&quot;&gt;
+   &lt;Call name=&quot;addCustomizer&quot;&gt;
+     &lt;Arg&gt;
+       &lt;New class=&quot;org.eclipse.jetty.server.ForwardedRequestCustomizer&quot;&gt;
+         &lt;Set name=&quot;forwardedOnly&quot;&gt;&lt;Property name=&quot;jetty.httpConfig.forwardedOnly&quot; default=&quot;false&quot;/&gt;&lt;/Set&gt;
+         &lt;Set name=&quot;proxyAsAuthority&quot;&gt;&lt;Property name=&quot;jetty.httpConfig.forwardedProxyAsAuthority&quot; default=&quot;false&quot;/&gt;&lt;/Set&gt;
+         &lt;Set name=&quot;forwardedHeader&quot;&gt;&lt;Property name=&quot;jetty.httpConfig.forwardedHeader&quot; default=&quot;Forwarded&quot;/&gt;&lt;/Set&gt;
+         &lt;Set name=&quot;forwardedHostHeader&quot;&gt;&lt;Property name=&quot;jetty.httpConfig.forwardedHostHeader&quot; default=&quot;X-Forwarded-Host&quot;/&gt;&lt;/Set&gt;
+         &lt;Set name=&quot;forwardedServerHeader&quot;&gt;&lt;Property name=&quot;jetty.httpConfig.forwardedServerHeader&quot; default=&quot;X-Forwarded-Server&quot;/&gt;&lt;/Set&gt;
+         &lt;Set name=&quot;forwardedProtoHeader&quot;&gt;&lt;Property name=&quot;jetty.httpConfig.forwardedProtoHeader&quot; default=&quot;X-Forwarded-Proto&quot;/&gt;&lt;/Set&gt;
+         &lt;Set name=&quot;forwardedForHeader&quot;&gt;&lt;Property name=&quot;jetty.httpConfig.forwardedForHeader&quot; default=&quot;X-Forwarded-For&quot;/&gt;&lt;/Set&gt;
+         &lt;Set name=&quot;forwardedHttpsHeader&quot;&gt;&lt;Property name=&quot;jetty.httpConfig.forwardedHttpsHeader&quot; default=&quot;X-Proxied-Https&quot;/&gt;&lt;/Set&gt;
+         &lt;Set name=&quot;forwardedSslSessionIdHeader&quot;&gt;&lt;Property name=&quot;jetty.httpConfig.forwardedSslSessionIdHeader&quot; default=&quot;Proxy-ssl-id&quot; /&gt;&lt;/Set&gt;
+         &lt;Set name=&quot;forwardedCipherSuiteHeader&quot;&gt;&lt;Property name=&quot;jetty.httpConfig.forwardedCipherSuiteHeader&quot; default=&quot;Proxy-auth-cert&quot;/&gt;&lt;/Set&gt;
+       &lt;/New&gt;
+     &lt;/Arg&gt;
+   &lt;/Call&gt;
+ &lt;/Configure&gt;
+</code></pre>
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">nginx</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">jetty</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">https</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/https//" class="article-tag-list-link color1">https</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/04/27/nginx-jetty-https/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-dubbo环境隔离" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1312,68 +1448,6 @@ public class StartUp {
 
 
   
-    <article id="post-多线程" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/08/07/多线程/">多线程</a>
-    </h1>
-  
-
-        
-        <a href="/2017/08/07/多线程/" class="archive-article-date">
-  	<time datetime="2017-08-07T11:54:55.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-08-07</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/08/07/多线程/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
@@ -1500,6 +1574,14 @@ var _hmt = _hmt || [];
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">linux</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">IO</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">java</a>
               </li>
              
@@ -1520,23 +1602,7 @@ var _hmt = _hmt || [];
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">linux</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">IO</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">http</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">dubbo</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">ldap</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1544,11 +1610,31 @@ var _hmt = _hmt || [];
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">http</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">ldap</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">hexo</a>
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">nginx</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">jetty</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">mybatis-generator</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">https</a>
               </li>
             
             <div class="clearfix"></div>

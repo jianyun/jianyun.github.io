@@ -6,14 +6,19 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://jianyun.xyz">
-  <title>Tag: JAVA | jianyun&#39;s blog</title>
+  <title>nginx jetty https | jianyun&#39;s blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="jianyun&#39;s blog">
-<meta property="og:url" content="http://jianyun.xyz/tags/JAVA/index.html">
+  <meta name="description" content="nginx配置httpsserver {     listen 443 ssl;     server_name www.nbbdw.com;     ssl on;     ssl_certificate /home/sslkey/nbbdw.crt;     ssl_certificate_key /home/ss">
+<meta name="keywords" content="nginx,jetty,https">
+<meta property="og:type" content="article">
+<meta property="og:title" content="nginx jetty https">
+<meta property="og:url" content="http://jianyun.xyz/2018/04/27/nginx-jetty-https/index.html">
 <meta property="og:site_name" content="jianyun&#39;s blog">
+<meta property="og:description" content="nginx配置httpsserver {     listen 443 ssl;     server_name www.nbbdw.com;     ssl on;     ssl_certificate /home/sslkey/nbbdw.crt;     ssl_certificate_key /home/sslkey/nbbdw.key;      proxy_set_header Ho">
+<meta property="og:updated_time" content="2018-04-27T02:34:14.772Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="jianyun&#39;s blog">
+<meta name="twitter:title" content="nginx jetty https">
+<meta name="twitter:description" content="nginx配置httpsserver {     listen 443 ssl;     server_name www.nbbdw.com;     ssl on;     ssl_certificate /home/sslkey/nbbdw.crt;     ssl_certificate_key /home/sslkey/nbbdw.key;      proxy_set_header Ho">
   
     <link rel="alternative" href="/atom.xml" title="jianyun&#39;s blog" type="application/atom+xml">
   
@@ -148,75 +153,255 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-nginx-jetty-https" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2017" class="archive-year">2017</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/08/07/JAVA原子类实现/" class="archive-article-date">
-  	<time datetime="2017-08-07T05:19:58.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-08-07</time>
-</a>
-        </div>
-    	 
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/08/07/JAVA原子类实现/">Java原子类实现原理分析</a>
+    <h1 class="article-title" itemprop="name">
+      nginx jetty https
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
+        
+        <a href="/2018/04/27/nginx-jetty-https/" class="archive-article-date">
+  	<time datetime="2018-04-27T02:26:19.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-04-27</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="nginx配置https"><a href="#nginx配置https" class="headerlink" title="nginx配置https"></a>nginx配置https</h2><pre><code>server {
+    listen 443 ssl;
+    server_name www.nbbdw.com;
+    ssl on;
+    ssl_certificate /home/sslkey/nbbdw.crt;
+    ssl_certificate_key /home/sslkey/nbbdw.key;
+
+    proxy_set_header Host $http_host;
+    proxy_set_header X-real-ip $remote_addr;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_set_header X-Forwarded-Proto $scheme;
+    proxy_set_header X-Http-scheme https;
+    proxy_redirect http:// $scheme://;
+
+    location / {
+            proxy_pass http://portalsite;
+    }
+  }
+</code></pre><h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><pre><code>nginx到jetty是http，request.getScheme()一直取到http；request.getRequestURL()也是http。
+</code></pre><h2 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h2><pre><code>修改jetty（9）的start.ini配置
+
+--module=http-forwarded
+
+完美解决。
+</code></pre><h2 id="实际用到"><a href="#实际用到" class="headerlink" title="实际用到"></a>实际用到</h2><pre><code>&lt;?xml version=&quot;1.0&quot;?&gt;
+ &lt;!DOCTYPE Configure PUBLIC &quot;-//Jetty//Configure//EN&quot; &quot;http://www.eclipse.org/jetty/configure_9_3.dtd&quot;&gt;
+ &lt;Configure id=&quot;httpConfig&quot; class=&quot;org.eclipse.jetty.server.HttpConfiguration&quot;&gt;
+   &lt;Call name=&quot;addCustomizer&quot;&gt;
+     &lt;Arg&gt;
+       &lt;New class=&quot;org.eclipse.jetty.server.ForwardedRequestCustomizer&quot;&gt;
+         &lt;Set name=&quot;forwardedOnly&quot;&gt;&lt;Property name=&quot;jetty.httpConfig.forwardedOnly&quot; default=&quot;false&quot;/&gt;&lt;/Set&gt;
+         &lt;Set name=&quot;proxyAsAuthority&quot;&gt;&lt;Property name=&quot;jetty.httpConfig.forwardedProxyAsAuthority&quot; default=&quot;false&quot;/&gt;&lt;/Set&gt;
+         &lt;Set name=&quot;forwardedHeader&quot;&gt;&lt;Property name=&quot;jetty.httpConfig.forwardedHeader&quot; default=&quot;Forwarded&quot;/&gt;&lt;/Set&gt;
+         &lt;Set name=&quot;forwardedHostHeader&quot;&gt;&lt;Property name=&quot;jetty.httpConfig.forwardedHostHeader&quot; default=&quot;X-Forwarded-Host&quot;/&gt;&lt;/Set&gt;
+         &lt;Set name=&quot;forwardedServerHeader&quot;&gt;&lt;Property name=&quot;jetty.httpConfig.forwardedServerHeader&quot; default=&quot;X-Forwarded-Server&quot;/&gt;&lt;/Set&gt;
+         &lt;Set name=&quot;forwardedProtoHeader&quot;&gt;&lt;Property name=&quot;jetty.httpConfig.forwardedProtoHeader&quot; default=&quot;X-Forwarded-Proto&quot;/&gt;&lt;/Set&gt;
+         &lt;Set name=&quot;forwardedForHeader&quot;&gt;&lt;Property name=&quot;jetty.httpConfig.forwardedForHeader&quot; default=&quot;X-Forwarded-For&quot;/&gt;&lt;/Set&gt;
+         &lt;Set name=&quot;forwardedHttpsHeader&quot;&gt;&lt;Property name=&quot;jetty.httpConfig.forwardedHttpsHeader&quot; default=&quot;X-Proxied-Https&quot;/&gt;&lt;/Set&gt;
+         &lt;Set name=&quot;forwardedSslSessionIdHeader&quot;&gt;&lt;Property name=&quot;jetty.httpConfig.forwardedSslSessionIdHeader&quot; default=&quot;Proxy-ssl-id&quot; /&gt;&lt;/Set&gt;
+         &lt;Set name=&quot;forwardedCipherSuiteHeader&quot;&gt;&lt;Property name=&quot;jetty.httpConfig.forwardedCipherSuiteHeader&quot; default=&quot;Proxy-auth-cert&quot;/&gt;&lt;/Set&gt;
+       &lt;/New&gt;
+     &lt;/Arg&gt;
+   &lt;/Call&gt;
+ &lt;/Configure&gt;
+</code></pre>
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="/assets/img/alipay.jpg">
+                      <span class="reward-type">支付宝</span>
+                    </div>
+                    
+                    
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="/assets/img/weixin.jpg">
+                      <span class="reward-type">微信</span>
+                    </div>
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">JAVA</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">nginx</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">原子类</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">jetty</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">https</a>
         		</li>
       		
 		</ul>
 	</div>
 
-          
+      
 	<div class="article-category tagcloud">
 		<i class="icon-book icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="/categories/笔记//" class="article-tag-list-link color3">笔记</a>
+        			<a href="/categories/https//" class="article-tag-list-link color1">https</a>
         		</li>
       		
 		</ul>
 	</div>
 
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://jianyun.xyz/2018/04/27/nginx-jetty-https/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
+  
+<nav id="article-nav">
   
   
-    </div></section>
+    <a href="/2017/11/29/dubbo环境隔离/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">dubbo环境隔离</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+  
+  
   
 
-    
+  
+
+  
+
+  
+  <div id="gitment-ctn"></div> 
+<link rel="stylesheet" href="//imsun.github.io/gitment/style/default.css">
+<script src="//imsun.github.io/gitment/dist/gitment.browser.js"></script>
+<script>
+var gitment = new Gitment({
+  id: "http://jianyun.xyz/2018/04/27/nginx-jetty-https/",
+  owner: 'jianyun',
+  repo: 'jianyun.github.io',
+  oauth: {
+    client_id: 'dfebdcb2ca4a0d18fae8',
+    client_secret: '6a2c2192d7aeb804e14b31e4b797ecc7b582a6fe',
+  },
+})
+gitment.render('gitment-ctn')
+</script>
+  
 
 
           </div>
@@ -239,9 +424,9 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
+		isPost: true,
 		isArchive: false,
-		isTag: true,
+		isTag: false,
 		isCategory: false,
 		open_in_new: false,
 		toc_hide_index: true,
@@ -509,22 +694,6 @@ var _hmt = _hmt || [];
 
             <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
             </button>
-
-            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
-            </button>
-
-            <div class="pswp__caption">
-                <div class="pswp__caption__center"></div>
-            </div>
-
-        </div>
-
-    </div>
-
-</div>
-  </div>
-</body>
-</html>     </button>
 
             <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
             </button>
