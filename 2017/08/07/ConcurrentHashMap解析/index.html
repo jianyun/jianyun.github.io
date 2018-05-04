@@ -14,11 +14,11 @@
 <meta property="og:title" content="ConcurrentHashMap解析">
 <meta property="og:url" content="http://jianyun.xyz/2017/08/07/ConcurrentHashMap解析/index.html">
 <meta property="og:site_name" content="jianyun&#39;s blog">
-<meta property="og:description" content="转自：HoseeConcurrentHashMap是一个经常被使用的数据结构，相比于Hashtable以及Collections.synchronizedMap()，ConcurrentHashMap在线程安全的基础上提供了更好的写并发能力，但同时降低了对读一致性的要求（这点好像CAP理论啊 O(∩_∩)O）。ConcurrentHashMap的设计与实现非常精巧，大量的利用了volatile，f">
+<meta property="og:description" content="转自：HoseeConcurrentHashMap是一个经常被使用的数据结构，相比于Hashtable以及Collections.synchronizedMap()，ConcurrentHashMap在线程安全的基础上提供了更好的写并发能力，但同时降低了对读一致性的要求（这点好像CAP理论啊 O(∩_∩)O）。ConcurrentHashMap的设计与实现非常精巧，大量的利用了volatile，">
 <meta property="og:updated_time" content="2017-11-29T02:48:06.530Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="ConcurrentHashMap解析">
-<meta name="twitter:description" content="转自：HoseeConcurrentHashMap是一个经常被使用的数据结构，相比于Hashtable以及Collections.synchronizedMap()，ConcurrentHashMap在线程安全的基础上提供了更好的写并发能力，但同时降低了对读一致性的要求（这点好像CAP理论啊 O(∩_∩)O）。ConcurrentHashMap的设计与实现非常精巧，大量的利用了volatile，f">
+<meta name="twitter:description" content="转自：HoseeConcurrentHashMap是一个经常被使用的数据结构，相比于Hashtable以及Collections.synchronizedMap()，ConcurrentHashMap在线程安全的基础上提供了更好的写并发能力，但同时降低了对读一致性的要求（这点好像CAP理论啊 O(∩_∩)O）。ConcurrentHashMap的设计与实现非常精巧，大量的利用了volatile，">
   
     <link rel="alternative" href="/atom.xml" title="jianyun&#39;s blog" type="application/atom+xml">
   
@@ -90,7 +90,6 @@
 			</div>
 		</nav>
 	</header>
-
 </div>
 
     </div>
@@ -173,7 +172,7 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>转自：Hosee<br>ConcurrentHashMap是一个经常被使用的数据结构，相比于Hashtable以及Collections.synchronizedMap()，ConcurrentHashMap在线程安全的基础上提供了更好的写并发能力，但同时降低了对读一致性的要求（这点好像CAP理论啊 O(∩_∩)O）。ConcurrentHashMap的设计与实现非常精巧，大量的利用了volatile，final，CAS等lock-free技术来减少锁竞争对于性能的影响，无论对于Java并发编程的学习还是Java内存模型的理解，ConcurrentHashMap的设计以及源码都值得非常仔细的阅读与揣摩。</p>
+        <script src="/assets/js/APlayer.min.js"> </script><p>转自：Hosee<br>ConcurrentHashMap是一个经常被使用的数据结构，相比于Hashtable以及Collections.synchronizedMap()，ConcurrentHashMap在线程安全的基础上提供了更好的写并发能力，但同时降低了对读一致性的要求（这点好像CAP理论啊 O(∩_∩)O）。ConcurrentHashMap的设计与实现非常精巧，大量的利用了volatile，final，CAS等lock-free技术来减少锁竞争对于性能的影响，无论对于Java并发编程的学习还是Java内存模型的理解，ConcurrentHashMap的设计以及源码都值得非常仔细的阅读与揣摩。</p>
 <p>这篇日志记录了自己对ConcurrentHashMap的一些总结，由于JDK6，7，8中实现都不同，需要分开阐述在不同版本中的ConcurrentHashMap。</p>
 <p>之前已经在ConcurrentHashMap原理分析中解释了ConcurrentHashMap的原理，主要是从代码的角度来阐述是源码是如何写的，本文仍然从源码出发，挑选个人觉得重要的点（会用红色标注）再次进行回顾，以及阐述ConcurrentHashMap的一些注意点。</p>
 <h2 id="1-JDK6与JDK7中的实现"><a href="#1-JDK6与JDK7中的实现" class="headerlink" title="1. JDK6与JDK7中的实现"></a>1. JDK6与JDK7中的实现</h2><p>1.1 设计思路</p>
@@ -570,15 +569,15 @@ var _hmt = _hmt || [];
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">android</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">https</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">dubbo</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">http</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">iptables</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -586,11 +585,11 @@ var _hmt = _hmt || [];
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">hexo</a>
+                <a href="javascript:void(0)" class="js-tag color4">iptables</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">mybatis-generator</a>
+                <a href="javascript:void(0)" class="js-tag color5">hexo</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -602,7 +601,11 @@ var _hmt = _hmt || [];
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">https</a>
+                <a href="javascript:void(0)" class="js-tag color5">http</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">mybatis-generator</a>
               </li>
             
             <div class="clearfix"></div>

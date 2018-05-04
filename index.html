@@ -85,7 +85,6 @@
 			</div>
 		</nav>
 	</header>
-
 </div>
 
     </div>
@@ -150,6 +149,97 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-android浏览器https空白" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/05/04/android浏览器https空白/">android浏览器https空白</a>
+    </h1>
+  
+
+        
+        <a href="/2018/05/04/android浏览器https空白/" class="archive-article-date">
+  	<time datetime="2018-05-04T10:46:20.269Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-05-04</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <script src="/assets/js/APlayer.min.js"> </script><h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><pre><code>nginx配置https,pc和苹果浏览器正常显示，android浏览器提示证书链不完整，微信浏览器空白
+</code></pre><h2 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h2><p>   查看百度证书，链路对照 openssl s_client -connect www.baidu.com:443   openssl s_client -connect www.xxx.com:443<br>   明显看到证书缺失，error</p>
+<p>   查看证书购买邮件，将网站证书、服务证书、根证书按以下合并，刷新nginx完美解决<br>   —–BEGIN CERTIFICATE—–<br>   (Your Primary SSL certificate: your_domain_name.crt)<br>   —–END CERTIFICATE—–<br>   —–BEGIN CERTIFICATE—–<br>   (Your Intermediate certificate: DigiCertCA.crt)<br>   —–END CERTIFICATE—–<br>   —–BEGIN CERTIFICATE—–<br>   (Your Root certificate: TrustedRoot.crt)<br>   —–END CERTIFICATE—–</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">android</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">https</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/https//" class="article-tag-list-link color1">https</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/05/04/android浏览器https空白/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-nginx-jetty-https" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -170,7 +260,7 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="nginx配置https"><a href="#nginx配置https" class="headerlink" title="nginx配置https"></a>nginx配置https</h2><pre><code>server {
+        <script src="/assets/js/APlayer.min.js"> </script><h2 id="nginx配置https"><a href="#nginx配置https" class="headerlink" title="nginx配置https"></a>nginx配置https</h2><pre><code>server {
     listen 443 ssl;
     server_name www.nbbdw.com;
     ssl on;
@@ -227,15 +317,15 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">https</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
         			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">nginx</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
         			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">jetty</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">https</a>
         		</li>
       		
 		</ul>
@@ -306,7 +396,7 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="需求简介"><a href="#需求简介" class="headerlink" title="需求简介"></a>需求简介</h2><pre><code>使用dubbo来进行服务管理，都是在分布式应用的前提下，涉及到多个子系统之间的调用，DUBBO所做的事情就是维护各个子系统暴露的接口和自动发现对应接口的远程地址从而实现分布式RPC服务管理。
+        <script src="/assets/js/APlayer.min.js"> </script><h2 id="需求简介"><a href="#需求简介" class="headerlink" title="需求简介"></a>需求简介</h2><pre><code>使用dubbo来进行服务管理，都是在分布式应用的前提下，涉及到多个子系统之间的调用，DUBBO所做的事情就是维护各个子系统暴露的接口和自动发现对应接口的远程地址从而实现分布式RPC服务管理。
 在项目开发和测试过程中涉及接口的联调。如果每个子系统自己维护自己系统的联调环境，可能会导致别人调用接口的不稳定，因为环境是系统自己人来维护，可能挂了也可能调整接口没通知相关人员，这对开发接口联调测试是一个问题。
 </code></pre><h2 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h2><h3 id="1、直连"><a href="#1、直连" class="headerlink" title="1、直连"></a>1、直连</h3><pre><code>服务消费端:
 
@@ -403,7 +493,7 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><pre><code>netfilter/iptables（简称为iptables）组成Linux平台下的包过滤防火墙，与大多数的Linux软件一样，这个包过滤防火墙是免费的，它可以代替昂贵的商业防火墙解决方案，完成封包过滤、封包重定向和网络地址转换（NAT）等功能
+        <script src="/assets/js/APlayer.min.js"> </script><h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><pre><code>netfilter/iptables（简称为iptables）组成Linux平台下的包过滤防火墙，与大多数的Linux软件一样，这个包过滤防火墙是免费的，它可以代替昂贵的商业防火墙解决方案，完成封包过滤、封包重定向和网络地址转换（NAT）等功能
 </code></pre><h2 id="基础"><a href="#基础" class="headerlink" title="基础"></a>基础</h2><pre><code>规则（rules）其实就是网络管理员预定义的条件，规则一般的定义为“如果数据包头符合这样的条件，就这样处理这个数据包”。规则存储在内核空间的信息 包过滤表中，这些规则分别指定了源地址、目的地址、传输协议（如TCP、UDP、ICMP）和服务类型（如HTTP、FTP和SMTP）等。当数据包与规 则匹配时，iptables就根据规则所定义的方法来处理这些数据包，如放行（accept）、拒绝（reject）和丢弃（drop）等。配置防火墙的 主要工作就是添加、修改和删除这些规则。
 </code></pre><h2 id="iptables和netfilter的关系"><a href="#iptables和netfilter的关系" class="headerlink" title="iptables和netfilter的关系"></a>iptables和netfilter的关系</h2><pre><code>这是第一个要说的地方，Iptables和netfilter的关系是一个很容易让人搞不清的问题。很多的知道iptables却不知道 netfilter。其实iptables只是Linux防火墙的管理工具而已，位于/sbin/iptables。真正实现防火墙功能的是 netfilter，它是Linux内核中实现包过滤的内部结构。
 
@@ -492,7 +582,7 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="maven依赖"><a href="#maven依赖" class="headerlink" title="maven依赖"></a>maven依赖</h2><pre><code>&lt;dependency&gt;
+        <script src="/assets/js/APlayer.min.js"> </script><h2 id="maven依赖"><a href="#maven依赖" class="headerlink" title="maven依赖"></a>maven依赖</h2><pre><code>&lt;dependency&gt;
   &lt;groupId&gt;org.mybatis.generator&lt;/groupId&gt;
   &lt;artifactId&gt;mybatis-generator-core&lt;/artifactId&gt;
   &lt;version&gt;1.3.2&lt;/version&gt;
@@ -897,7 +987,7 @@ public class StartUp {
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>在 Mac 系统上, 安装 hexo，本来很简单到命令，却蛋疼一下午，简单记录下。</p>
+        <script src="/assets/js/APlayer.min.js"> </script><p>在 Mac 系统上, 安装 hexo，本来很简单到命令，却蛋疼一下午，简单记录下。</p>
 <h3 id="安装homebrew"><a href="#安装homebrew" class="headerlink" title="安装homebrew"></a>安装homebrew</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/<span class="keyword">install</span>/<span class="keyword">master</span>/<span class="keyword">install</span>)<span class="string">"</span></span><br></pre></td></tr></table></figure>
 <h3 id="安装nodejs"><a href="#安装nodejs" class="headerlink" title="安装nodejs"></a>安装nodejs</h3><figure class="highlight crmsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew install <span class="keyword">node</span><span class="title"></span></span><br></pre></td></tr></table></figure>
 <h3 id="安装hexo"><a href="#安装hexo" class="headerlink" title="安装hexo"></a>安装hexo</h3><figure class="highlight avrasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo npm install -g hexo-<span class="keyword">cli</span></span><br></pre></td></tr></table></figure>
@@ -986,7 +1076,7 @@ public class StartUp {
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h3 id="版本"><a href="#版本" class="headerlink" title="版本"></a>版本</h3><p>在 Mac 系统上, 安装 MySQL Server 一般是用 DMG 包在图形化界面安装,<br>此外 mysql 还提供了 Compressed TAR Archive 二进制包安装方式, 即免安装解压运行版, 相比 DMG 包, 免安装版过程更为简洁, 纯命令行操作。</p>
+        <script src="/assets/js/APlayer.min.js"> </script><h3 id="版本"><a href="#版本" class="headerlink" title="版本"></a>版本</h3><p>在 Mac 系统上, 安装 MySQL Server 一般是用 DMG 包在图形化界面安装,<br>此外 mysql 还提供了 Compressed TAR Archive 二进制包安装方式, 即免安装解压运行版, 相比 DMG 包, 免安装版过程更为简洁, 纯命令行操作。</p>
 <figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">mysql-<span class="number">5.6</span>.<span class="number">37</span>-macos10.<span class="number">12</span>-x86_64<span class="selector-class">.tar</span><span class="selector-class">.gz</span></span><br><span class="line">https:<span class="comment">//dev.mysql.com/downloads/file/?id=471193</span></span><br><span class="line"></span><br><span class="line">mac os <span class="number">10.12</span>.<span class="number">5</span></span><br></pre></td></tr></table></figure>
 <figure class="highlight jboss-cli"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">解压 tar.gz 文件:</span><br><span class="line">tar zxvf mysql-5.6.37-macos10.12-x86_64.tar.gz</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 移动解压后的二进制包到安装目录</span></span><br><span class="line">sudo mv mysql-5.6.37-macos10.12-x86_64 <span class="string">/usr/local/</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 更改 mysql 安装目录所属用户与用户组</span></span><br><span class="line"><span class="keyword">cd</span> <span class="string">/usr/local</span></span><br><span class="line">sudo chown -R root<span class="function">:wheel</span> mysql</span><br><span class="line"></span><br><span class="line"><span class="comment"># 执行 scripts 目录下的 mysql_install_db 脚本完成一些默认的初始化(创建默认配置文件、授权表等)</span></span><br><span class="line"><span class="keyword">cd</span> <span class="string">/usr/local/mysql</span></span><br><span class="line">sudo scripts/mysql_install_db <span class="params">--user=mysql</span></span><br><span class="line"></span><br><span class="line">注意: MySQL 5.7.6 以上版本取消了 scripts 目录, 初始化命令改成了</span><br><span class="line">sudo bin/mysqld <span class="params">--initialize</span> <span class="params">--user=mysql</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">cd</span> <span class="string">/usr/local/mysql</span></span><br><span class="line"><span class="comment"># 启动</span></span><br><span class="line">sudo support-files/mysql.server start</span><br><span class="line"><span class="comment"># 重启</span></span><br><span class="line">sudo support-files/mysql.server restart</span><br><span class="line"><span class="comment"># 停止</span></span><br><span class="line">sudo support-files/mysql.server stop</span><br><span class="line"><span class="comment"># 检查 MySQL 运行状态</span></span><br><span class="line">sudo support-files/mysql.server status</span><br><span class="line"></span><br><span class="line">初始化 MySQL root 密码</span><br><span class="line"><span class="comment"># 需要 MySQL 在运行状态执行</span></span><br><span class="line"><span class="keyword">cd</span> <span class="string">/usr/local/mysql/bin</span></span><br><span class="line"><span class="string">./mysqladmin</span> -u root password &lt;your-password&gt;</span><br><span class="line">通过自带的 MySQL Client 连接数据库</span><br><span class="line"><span class="keyword">cd</span> <span class="string">/usr/local/mysql/bin</span></span><br><span class="line"><span class="string">./mysql</span> -u root -p</span><br><span class="line">&lt;your-password&gt;</span><br></pre></td></tr></table></figure>
       
@@ -1072,7 +1162,7 @@ public class StartUp {
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h3 id="源码安装"><a href="#源码安装" class="headerlink" title="源码安装"></a>源码安装</h3><p>db-6.2.32.tar.gz</p>
+        <script src="/assets/js/APlayer.min.js"> </script><h3 id="源码安装"><a href="#源码安装" class="headerlink" title="源码安装"></a>源码安装</h3><p>db-6.2.32.tar.gz</p>
 <p><a href="http://www.oracle.com/technetwork/database/database-technologies/berkeleydb/downloads/index.html" target="_blank" rel="noopener">http://www.oracle.com/technetwork/database/database-technologies/berkeleydb/downloads/index.html</a></p>
 <p>openldap-2.1.29</p>
 <p><a href="http://www.openldap.org/software/download/" target="_blank" rel="noopener">http://www.openldap.org/software/download/</a></p>
@@ -1162,7 +1252,7 @@ public class StartUp {
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="概念理解"><a href="#概念理解" class="headerlink" title="概念理解"></a>概念理解</h2><p>在进行网络编程时，我们常常见到同步(Sync)/异步(Async)，阻塞(Block)/非阻塞(Unblock)四种调用方式：</p>
+        <script src="/assets/js/APlayer.min.js"> </script><h2 id="概念理解"><a href="#概念理解" class="headerlink" title="概念理解"></a>概念理解</h2><p>在进行网络编程时，我们常常见到同步(Sync)/异步(Async)，阻塞(Block)/非阻塞(Unblock)四种调用方式：</p>
 <ul>
 <li><p>同步：</p>
 <p>  在发出一个功能调用时，在没有得到结果之前，该调用就不返回。也就是必须一件一件事做,等前一件做完了才能做下一件事。<br>  例如普通B/S模式（同步）：提交请求-&gt;等待服务器处理-&gt;处理完毕返回 这个期间客户端浏览器不能干任何事</p>
@@ -1296,7 +1386,7 @@ public class StartUp {
     
     <div class="article-entry" itemprop="articleBody">
       
-        
+        <script src="/assets/js/APlayer.min.js"> </script>
       
 
       
@@ -1320,105 +1410,6 @@ public class StartUp {
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2017/08/07/JVM模型/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-java类装载机制" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/08/07/java类装载机制/">java类装载机制</a>
-    </h1>
-  
-
-        
-        <a href="/2017/08/07/java类装载机制/" class="archive-article-date">
-  	<time datetime="2017-08-07T11:55:39.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-08-07</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>Class文件由类装载器装载后，在JVM中将形成一份描述Class结构的元信息对象，通过该元信息对象可以获知Class的结构信息：如构造函数，属性和方法等，Java允许用户借由这个Class相关的元信息对象间接调用Class对象的功能。<br>虚拟机把描述类的数据从class文件加载到内存，并对数据进行校验，转换解析和初始化，最终形成可以被虚拟机直接使用的Java类型，这就是虚拟机的类加载机制。</p>
-<p>类装载器就是寻找类的字节码文件，并构造出类在JVM内部表示的对象组件。在Java中，类装载器把一个类装入JVM中，要经过以下步骤：</p>
-<p> (1) 装载：查找和导入Class文件；</p>
-<p> (2) 链接：把类的二进制数据合并到JRE中；</p>
-<pre><code>(a)校验：检查载入Class文件数据的正确性；
-
-(b)准备：给类的静态变量分配存储空间；
-
-(c)解析：将符号引用转成直接引用；
-</code></pre><p> (3) 初始化：对类的静态变量，静态代码块执行初始化操作</p>
-<h2 id="类加载器与双亲委派模型"><a href="#类加载器与双亲委派模型" class="headerlink" title="类加载器与双亲委派模型"></a>类加载器与双亲委派模型</h2><pre><code>(1) Bootstrap ClassLoader : 将存放于&lt;JAVA_HOME&gt;\lib目录中的，或者被-Xbootclasspath参数所指定的路径中的，并且是虚拟机识别的（仅按照文件名识别，如 rt.jar 名字不符合的类库即使放在lib目录中也不会被加载）类库加载到虚拟机内存中。启动类加载器无法被Java程序直接引用
-(2) Extension ClassLoader : 将&lt;JAVA_HOME&gt;\lib\ext目录下的，或者被java.ext.dirs系统变量所指定的路径中的所有类库加载。开发者可以直接使用扩展类加载器。
-(3) Application ClassLoader : 负责加载用户类路径(ClassPath)上所指定的类库,开发者可直接使用。
-</code></pre><p> 工作过程：如果一个类加载器接收到了类加载的请求，它首先把这个请求委托给他的父类加载器去完成，每个层次的类加载器都是如此，因此所有的加载请求都应该传送到顶层的启动类加载器中，只有当父加载器反馈自己无法完成这个加载请求（它在搜索范围中没有找到所需的类）时，子加载器才会尝试自己去加载。</p>
-<p> 好处：java类随着它的类加载器一起具备了一种带有优先级的层次关系。例如类java.lang.Object，它存放在rt.jar中，无论哪个类加载器要加载这个类，最终都会委派给启动类加载器进行加载，因此Object类在程序的各种类加载器环境中都是同一个类。相反，如果用户自己写了一个名为java.lang.Object的类，并放在程序的Classpath中，那系统中将会出现多个不同的Object类，java类型体系中最基础的行为也无法保证，应用程序也会变得一片混乱。</p>
-<h2 id="反射"><a href="#反射" class="headerlink" title="反射"></a>反射</h2><p> Reflection机制允许程序在正在执行的过程中，利用Reflection APIs取得任何已知名称的类的内部信息，包括：package、 type parameters、 superclass、 implemented interfaces、 inner classes、 outer classes、 fields、 constructors、 methods、 modifiers等，并可以在执行的过程中，动态生成instances、变更fields内容或唤起methods。</p>
-<ul>
-<li><p>1、获取构造方法</p>
-<figure class="highlight oxygene"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">Constructor</span> <span class="title">getConstructor</span><span class="params">(<span class="keyword">Class</span>[] <span class="keyword">params</span>)</span></span></span><br><span class="line"><span class="function">根据构造函数的参数，返回一个具体的具有<span class="title">public</span>属性的构造函数</span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function"><span class="title">Constructor</span> <span class="title">getConstructors</span><span class="params">()</span></span></span><br><span class="line"><span class="function">返回所有具有<span class="title">public</span>属性的构造函数数组</span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function"><span class="title">Constructor</span> <span class="title">getDeclaredConstructor</span><span class="params">(<span class="keyword">Class</span>[] <span class="keyword">params</span>)</span></span></span><br><span class="line"><span class="function">根据构造函数的参数，返回一个具体的构造函数（不分<span class="title">public</span>和非<span class="title">public</span>属性）</span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function"><span class="title">Constructor</span> <span class="title">getDeclaredConstructors</span><span class="params">()</span></span></span><br><span class="line"><span class="function">返回该类中所有的构造函数数组（不分<span class="title">public</span>和非<span class="title">public</span>属性）</span></span><br></pre></td></tr></table></figure>
-</li>
-<li><p>2、获取类的成员方法　</p>
-<figure class="highlight monkey"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">Method</span> <span class="title">getMethod</span>(</span>String name, <span class="class"><span class="keyword">Class</span>[] <span class="title">params</span>)</span></span><br><span class="line">根据方法名和参数，返回一个具体的具有<span class="keyword">public</span>属性的方法</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">Method</span>[] <span class="title">getMethods</span>(</span>)</span><br><span class="line">返回所有具有<span class="keyword">public</span>属性的方法数组</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">Method</span> <span class="title">getDeclaredMethod</span>(</span>String name, <span class="class"><span class="keyword">Class</span>[] <span class="title">params</span>)</span></span><br><span class="line">根据方法名和参数，返回一个具体的方法（不分<span class="keyword">public</span>和非<span class="keyword">public</span>属性）</span><br><span class="line"></span><br><span class="line">　　<span class="function"><span class="keyword">Method</span>[] <span class="title">getDeclaredMethods</span>(</span>)</span><br><span class="line">返回该类中的所有的方法数组（不分<span class="keyword">public</span>和非<span class="keyword">public</span>属性）</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>3、获取类的成员变量（成员属性）</p>
-<figure class="highlight delphi"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">Field getField(<span class="keyword">String</span> <span class="keyword">name</span>)</span><br><span class="line">根据变量名，返回一个具体的具有<span class="keyword">public</span>属性的成员变量</span><br><span class="line"></span><br><span class="line">Field[] getFields()</span><br><span class="line">返回具有<span class="keyword">public</span>属性的成员变量的数组</span><br><span class="line"></span><br><span class="line">Field getDeclaredField(<span class="keyword">String</span> <span class="keyword">name</span>)</span><br><span class="line">根据变量名，返回一个成员变量（不分<span class="keyword">public</span>和非<span class="keyword">public</span>属性）</span><br><span class="line"></span><br><span class="line">Field[] getDelcaredFields()</span><br><span class="line">返回所有成员变量组成的数组（不分<span class="keyword">public</span>和非<span class="keyword">public</span>属性）</span><br></pre></td></tr></table></figure></li>
-</ul>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/笔记//" class="article-tag-list-link color3">笔记</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/08/07/java类装载机制/">展开全文 >></a>
         </p>
       
 
@@ -1602,15 +1593,15 @@ var _hmt = _hmt || [];
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">android</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">https</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">dubbo</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">http</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">iptables</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1618,11 +1609,11 @@ var _hmt = _hmt || [];
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">hexo</a>
+                <a href="javascript:void(0)" class="js-tag color4">iptables</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">mybatis-generator</a>
+                <a href="javascript:void(0)" class="js-tag color5">hexo</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1634,7 +1625,11 @@ var _hmt = _hmt || [];
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">https</a>
+                <a href="javascript:void(0)" class="js-tag color5">http</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">mybatis-generator</a>
               </li>
             
             <div class="clearfix"></div>

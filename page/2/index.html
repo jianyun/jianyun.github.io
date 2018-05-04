@@ -85,7 +85,6 @@
 			</div>
 		</nav>
 	</header>
-
 </div>
 
     </div>
@@ -150,6 +149,105 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-java类装载机制" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/08/07/java类装载机制/">java类装载机制</a>
+    </h1>
+  
+
+        
+        <a href="/2017/08/07/java类装载机制/" class="archive-article-date">
+  	<time datetime="2017-08-07T11:55:39.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-08-07</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <script src="/assets/js/APlayer.min.js"> </script><h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>Class文件由类装载器装载后，在JVM中将形成一份描述Class结构的元信息对象，通过该元信息对象可以获知Class的结构信息：如构造函数，属性和方法等，Java允许用户借由这个Class相关的元信息对象间接调用Class对象的功能。<br>虚拟机把描述类的数据从class文件加载到内存，并对数据进行校验，转换解析和初始化，最终形成可以被虚拟机直接使用的Java类型，这就是虚拟机的类加载机制。</p>
+<p>类装载器就是寻找类的字节码文件，并构造出类在JVM内部表示的对象组件。在Java中，类装载器把一个类装入JVM中，要经过以下步骤：</p>
+<p> (1) 装载：查找和导入Class文件；</p>
+<p> (2) 链接：把类的二进制数据合并到JRE中；</p>
+<pre><code>(a)校验：检查载入Class文件数据的正确性；
+
+(b)准备：给类的静态变量分配存储空间；
+
+(c)解析：将符号引用转成直接引用；
+</code></pre><p> (3) 初始化：对类的静态变量，静态代码块执行初始化操作</p>
+<h2 id="类加载器与双亲委派模型"><a href="#类加载器与双亲委派模型" class="headerlink" title="类加载器与双亲委派模型"></a>类加载器与双亲委派模型</h2><pre><code>(1) Bootstrap ClassLoader : 将存放于&lt;JAVA_HOME&gt;\lib目录中的，或者被-Xbootclasspath参数所指定的路径中的，并且是虚拟机识别的（仅按照文件名识别，如 rt.jar 名字不符合的类库即使放在lib目录中也不会被加载）类库加载到虚拟机内存中。启动类加载器无法被Java程序直接引用
+(2) Extension ClassLoader : 将&lt;JAVA_HOME&gt;\lib\ext目录下的，或者被java.ext.dirs系统变量所指定的路径中的所有类库加载。开发者可以直接使用扩展类加载器。
+(3) Application ClassLoader : 负责加载用户类路径(ClassPath)上所指定的类库,开发者可直接使用。
+</code></pre><p> 工作过程：如果一个类加载器接收到了类加载的请求，它首先把这个请求委托给他的父类加载器去完成，每个层次的类加载器都是如此，因此所有的加载请求都应该传送到顶层的启动类加载器中，只有当父加载器反馈自己无法完成这个加载请求（它在搜索范围中没有找到所需的类）时，子加载器才会尝试自己去加载。</p>
+<p> 好处：java类随着它的类加载器一起具备了一种带有优先级的层次关系。例如类java.lang.Object，它存放在rt.jar中，无论哪个类加载器要加载这个类，最终都会委派给启动类加载器进行加载，因此Object类在程序的各种类加载器环境中都是同一个类。相反，如果用户自己写了一个名为java.lang.Object的类，并放在程序的Classpath中，那系统中将会出现多个不同的Object类，java类型体系中最基础的行为也无法保证，应用程序也会变得一片混乱。</p>
+<h2 id="反射"><a href="#反射" class="headerlink" title="反射"></a>反射</h2><p> Reflection机制允许程序在正在执行的过程中，利用Reflection APIs取得任何已知名称的类的内部信息，包括：package、 type parameters、 superclass、 implemented interfaces、 inner classes、 outer classes、 fields、 constructors、 methods、 modifiers等，并可以在执行的过程中，动态生成instances、变更fields内容或唤起methods。</p>
+<ul>
+<li><p>1、获取构造方法</p>
+<figure class="highlight oxygene"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">Constructor</span> <span class="title">getConstructor</span><span class="params">(<span class="keyword">Class</span>[] <span class="keyword">params</span>)</span></span></span><br><span class="line"><span class="function">根据构造函数的参数，返回一个具体的具有<span class="title">public</span>属性的构造函数</span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function"><span class="title">Constructor</span> <span class="title">getConstructors</span><span class="params">()</span></span></span><br><span class="line"><span class="function">返回所有具有<span class="title">public</span>属性的构造函数数组</span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function"><span class="title">Constructor</span> <span class="title">getDeclaredConstructor</span><span class="params">(<span class="keyword">Class</span>[] <span class="keyword">params</span>)</span></span></span><br><span class="line"><span class="function">根据构造函数的参数，返回一个具体的构造函数（不分<span class="title">public</span>和非<span class="title">public</span>属性）</span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function"><span class="title">Constructor</span> <span class="title">getDeclaredConstructors</span><span class="params">()</span></span></span><br><span class="line"><span class="function">返回该类中所有的构造函数数组（不分<span class="title">public</span>和非<span class="title">public</span>属性）</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>2、获取类的成员方法　</p>
+<figure class="highlight monkey"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">Method</span> <span class="title">getMethod</span>(</span>String name, <span class="class"><span class="keyword">Class</span>[] <span class="title">params</span>)</span></span><br><span class="line">根据方法名和参数，返回一个具体的具有<span class="keyword">public</span>属性的方法</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">Method</span>[] <span class="title">getMethods</span>(</span>)</span><br><span class="line">返回所有具有<span class="keyword">public</span>属性的方法数组</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">Method</span> <span class="title">getDeclaredMethod</span>(</span>String name, <span class="class"><span class="keyword">Class</span>[] <span class="title">params</span>)</span></span><br><span class="line">根据方法名和参数，返回一个具体的方法（不分<span class="keyword">public</span>和非<span class="keyword">public</span>属性）</span><br><span class="line"></span><br><span class="line">　　<span class="function"><span class="keyword">Method</span>[] <span class="title">getDeclaredMethods</span>(</span>)</span><br><span class="line">返回该类中的所有的方法数组（不分<span class="keyword">public</span>和非<span class="keyword">public</span>属性）</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>3、获取类的成员变量（成员属性）</p>
+<figure class="highlight delphi"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">Field getField(<span class="keyword">String</span> <span class="keyword">name</span>)</span><br><span class="line">根据变量名，返回一个具体的具有<span class="keyword">public</span>属性的成员变量</span><br><span class="line"></span><br><span class="line">Field[] getFields()</span><br><span class="line">返回具有<span class="keyword">public</span>属性的成员变量的数组</span><br><span class="line"></span><br><span class="line">Field getDeclaredField(<span class="keyword">String</span> <span class="keyword">name</span>)</span><br><span class="line">根据变量名，返回一个成员变量（不分<span class="keyword">public</span>和非<span class="keyword">public</span>属性）</span><br><span class="line"></span><br><span class="line">Field[] getDelcaredFields()</span><br><span class="line">返回所有成员变量组成的数组（不分<span class="keyword">public</span>和非<span class="keyword">public</span>属性）</span><br></pre></td></tr></table></figure></li>
+</ul>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/笔记//" class="article-tag-list-link color3">笔记</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2017/08/07/java类装载机制/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-多线程" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -170,7 +268,7 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        
+        <script src="/assets/js/APlayer.min.js"> </script>
       
 
       
@@ -232,7 +330,7 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>客户端发送一个HTTP请求到服务器的请求消息包括以下格式：</p>
+        <script src="/assets/js/APlayer.min.js"> </script><p>客户端发送一个HTTP请求到服务器的请求消息包括以下格式：</p>
 <p>请求行（request line）、请求头部（header）、空行和请求数据四个部分组成。</p>
 <ul>
 <li>第一部分：请求行，用来说明请求类型,要访问的资源以及所使用的HTTP版本.</li>
@@ -324,7 +422,7 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="1、同步异步、阻塞非阻塞概念"><a href="#1、同步异步、阻塞非阻塞概念" class="headerlink" title="1、同步异步、阻塞非阻塞概念"></a>1、同步异步、阻塞非阻塞概念</h2><p>同步和异步是针对应用程序和内核的交互而言的。 阻塞和非阻塞是针对于进程在访问数据的时候，根据IO操作的就绪状态来采取的不同方式，说白了是一种读取或者写入操作函数的实现方式，阻塞方式下读取或者写入函数将一直等待，而非阻塞方式下，读取或者写入函数会立即返回一个状态值。  </p>
+        <script src="/assets/js/APlayer.min.js"> </script><h2 id="1、同步异步、阻塞非阻塞概念"><a href="#1、同步异步、阻塞非阻塞概念" class="headerlink" title="1、同步异步、阻塞非阻塞概念"></a>1、同步异步、阻塞非阻塞概念</h2><p>同步和异步是针对应用程序和内核的交互而言的。 阻塞和非阻塞是针对于进程在访问数据的时候，根据IO操作的就绪状态来采取的不同方式，说白了是一种读取或者写入操作函数的实现方式，阻塞方式下读取或者写入函数将一直等待，而非阻塞方式下，读取或者写入函数会立即返回一个状态值。  </p>
 <p>由上描述基本可以总结一句简短的话，同步和异步是目的，阻塞和非阻塞是实现方式。</p>
 <ul>
 <li>1.同步    指的是用户进程触发IO操作并等待或者轮询的去查看IO操作是否就绪自己上街买衣服，自己亲自干这件事，别的事干不了。 </li>
@@ -416,7 +514,7 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>转自：Hosee<br>ConcurrentHashMap是一个经常被使用的数据结构，相比于Hashtable以及Collections.synchronizedMap()，ConcurrentHashMap在线程安全的基础上提供了更好的写并发能力，但同时降低了对读一致性的要求（这点好像CAP理论啊 O(∩_∩)O）。ConcurrentHashMap的设计与实现非常精巧，大量的利用了volatile，final，CAS等lock-free技术来减少锁竞争对于性能的影响，无论对于Java并发编程的学习还是Java内存模型的理解，ConcurrentHashMap的设计以及源码都值得非常仔细的阅读与揣摩。</p>
+        <script src="/assets/js/APlayer.min.js"> </script><p>转自：Hosee<br>ConcurrentHashMap是一个经常被使用的数据结构，相比于Hashtable以及Collections.synchronizedMap()，ConcurrentHashMap在线程安全的基础上提供了更好的写并发能力，但同时降低了对读一致性的要求（这点好像CAP理论啊 O(∩_∩)O）。ConcurrentHashMap的设计与实现非常精巧，大量的利用了volatile，final，CAS等lock-free技术来减少锁竞争对于性能的影响，无论对于Java并发编程的学习还是Java内存模型的理解，ConcurrentHashMap的设计以及源码都值得非常仔细的阅读与揣摩。</p>
 <p>这篇日志记录了自己对ConcurrentHashMap的一些总结，由于JDK6，7，8中实现都不同，需要分开阐述在不同版本中的ConcurrentHashMap。</p>
 <p>之前已经在ConcurrentHashMap原理分析中解释了ConcurrentHashMap的原理，主要是从代码的角度来阐述是源码是如何写的，本文仍然从源码出发，挑选个人觉得重要的点（会用红色标注）再次进行回顾，以及阐述ConcurrentHashMap的一些注意点。</p>
 <h2 id="1-JDK6与JDK7中的实现"><a href="#1-JDK6与JDK7中的实现" class="headerlink" title="1. JDK6与JDK7中的实现"></a>1. JDK6与JDK7中的实现</h2><p>1.1 设计思路</p>
@@ -562,7 +660,7 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        
+        <script src="/assets/js/APlayer.min.js"> </script>
       
 
       
@@ -624,7 +722,7 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <figure class="highlight lasso"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">Collection</span><br><span class="line">├<span class="built_in">List</span></span><br><span class="line">│├LinkedList</span><br><span class="line">│├ArrayList</span><br><span class="line">│└Vector</span><br><span class="line">│　└<span class="built_in">Stack</span></span><br><span class="line">└<span class="built_in">Set</span></span><br><span class="line"><span class="built_in">Map</span></span><br><span class="line">├Hashtable</span><br><span class="line">├HashMap</span><br><span class="line">└WeakHashMap</span><br></pre></td></tr></table></figure>
+        <script src="/assets/js/APlayer.min.js"> </script><figure class="highlight lasso"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">Collection</span><br><span class="line">├<span class="built_in">List</span></span><br><span class="line">│├LinkedList</span><br><span class="line">│├ArrayList</span><br><span class="line">│└Vector</span><br><span class="line">│　└<span class="built_in">Stack</span></span><br><span class="line">└<span class="built_in">Set</span></span><br><span class="line"><span class="built_in">Map</span></span><br><span class="line">├Hashtable</span><br><span class="line">├HashMap</span><br><span class="line">└WeakHashMap</span><br></pre></td></tr></table></figure>
 <img src="/2017/08/07/Java集合类详解/Collection.png" title="[Collection]">
 <img src="/2017/08/07/Java集合类详解/map.png" title="[map]">
 <h2 id="1-HashMap和Hashtable"><a href="#1-HashMap和Hashtable" class="headerlink" title="(1)HashMap和Hashtable"></a>(1)HashMap和Hashtable</h2><p>a.HashMap不是线程安全的；HashTable是线程安全的，其线程安全是通过Sychronize实现。</p>
@@ -750,7 +848,7 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="1、Reactor模型"><a href="#1、Reactor模型" class="headerlink" title="1、Reactor模型"></a>1、Reactor模型</h2><p>无论是C++还是Java编写的网络框架，大多数都是基于Reactor模式进行设计和开发，Reactor模式基于事件驱动，特别适合处理海量的I/O事件。</p>
+        <script src="/assets/js/APlayer.min.js"> </script><h2 id="1、Reactor模型"><a href="#1、Reactor模型" class="headerlink" title="1、Reactor模型"></a>1、Reactor模型</h2><p>无论是C++还是Java编写的网络框架，大多数都是基于Reactor模式进行设计和开发，Reactor模式基于事件驱动，特别适合处理海量的I/O事件。</p>
 <h3 id="1-1、单线程模型"><a href="#1-1、单线程模型" class="headerlink" title="1.1、单线程模型"></a>1.1、单线程模型</h3><p>Reactor单线程模型，指的是所有的IO操作都在同一个NIO线程上面完成，NIO线程的职责如下：</p>
 <p>1）作为NIO服务端，接收客户端的TCP连接;</p>
 <p>2）作为NIO客户端，向服务端发起TCP连接;</p>
@@ -910,7 +1008,7 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>并发包中的原子类可以解决类似num++这样的复合类操作的原子性问题，相比锁机制，使用原子类更精巧轻量，性能开销更小.<br>num++看似简单的一个操作，实际:<br>1.读取 2.加一 3.写入 三步组成的，这是个复合类的操作（所以volatile是无法解决num++的原子性问题的），在并发环境下，如果不做任何同步处理，就会有线程安全问题</p>
+        <script src="/assets/js/APlayer.min.js"> </script><p>并发包中的原子类可以解决类似num++这样的复合类操作的原子性问题，相比锁机制，使用原子类更精巧轻量，性能开销更小.<br>num++看似简单的一个操作，实际:<br>1.读取 2.加一 3.写入 三步组成的，这是个复合类的操作（所以volatile是无法解决num++的原子性问题的），在并发环境下，如果不做任何同步处理，就会有线程安全问题</p>
 <h2 id="阻塞同步-悲观"><a href="#阻塞同步-悲观" class="headerlink" title="阻塞同步(悲观)"></a>阻塞同步(悲观)</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">synchronized(this)&#123;</span><br><span class="line">    num++;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
 <p>使用独占锁机制来解决，是一种悲观的并发策略，抱着一副“总有刁民想害朕”的态势，每次操作数据的时候都认为别的线程会参与竞争修改，所以直接加锁。同一刻只能有一个线程持有锁，那其他线程就会阻塞。线程的挂起恢复会带来很大的性能开销，尽管jvm对于非竞争性的锁的获取和释放做了很多优化，但是一旦有多个线程竞争锁，频繁的阻塞唤醒，还是会有很大的性能开销的。所以，使用synchronized或其他重量级锁来处理显然不够合理。</p>
 <h2 id="非阻塞同步-乐观"><a href="#非阻塞同步-乐观" class="headerlink" title="非阻塞同步(乐观)"></a>非阻塞同步(乐观)</h2><p>乐观的解决方案，顾名思义，就是很大度乐观，每次操作数据的时候，都认为别的线程不会参与竞争修改，也不加锁。如果操作成功了那最好；如果失败了，比如中途确有别的线程进入并修改了数据（依赖于冲突检测），也不会阻塞，可以采取一些补偿机制，一般的策略就是反复重试。很显然，这种思想相比简单粗暴利用锁来保证同步要合理的多。</p>
@@ -1150,15 +1248,15 @@ var _hmt = _hmt || [];
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">android</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">https</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">dubbo</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">http</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">iptables</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1166,11 +1264,11 @@ var _hmt = _hmt || [];
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">hexo</a>
+                <a href="javascript:void(0)" class="js-tag color4">iptables</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">mybatis-generator</a>
+                <a href="javascript:void(0)" class="js-tag color5">hexo</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1182,7 +1280,11 @@ var _hmt = _hmt || [];
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">https</a>
+                <a href="javascript:void(0)" class="js-tag color5">http</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">mybatis-generator</a>
               </li>
             
             <div class="clearfix"></div>

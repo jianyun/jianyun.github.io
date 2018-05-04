@@ -90,7 +90,6 @@
 			</div>
 		</nav>
 	</header>
-
 </div>
 
     </div>
@@ -173,7 +172,7 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>并发包中的原子类可以解决类似num++这样的复合类操作的原子性问题，相比锁机制，使用原子类更精巧轻量，性能开销更小.<br>num++看似简单的一个操作，实际:<br>1.读取 2.加一 3.写入 三步组成的，这是个复合类的操作（所以volatile是无法解决num++的原子性问题的），在并发环境下，如果不做任何同步处理，就会有线程安全问题</p>
+        <script src="/assets/js/APlayer.min.js"> </script><p>并发包中的原子类可以解决类似num++这样的复合类操作的原子性问题，相比锁机制，使用原子类更精巧轻量，性能开销更小.<br>num++看似简单的一个操作，实际:<br>1.读取 2.加一 3.写入 三步组成的，这是个复合类的操作（所以volatile是无法解决num++的原子性问题的），在并发环境下，如果不做任何同步处理，就会有线程安全问题</p>
 <h2 id="阻塞同步-悲观"><a href="#阻塞同步-悲观" class="headerlink" title="阻塞同步(悲观)"></a>阻塞同步(悲观)</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">synchronized(this)&#123;</span><br><span class="line">    num++;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
 <p>使用独占锁机制来解决，是一种悲观的并发策略，抱着一副“总有刁民想害朕”的态势，每次操作数据的时候都认为别的线程会参与竞争修改，所以直接加锁。同一刻只能有一个线程持有锁，那其他线程就会阻塞。线程的挂起恢复会带来很大的性能开销，尽管jvm对于非竞争性的锁的获取和释放做了很多优化，但是一旦有多个线程竞争锁，频繁的阻塞唤醒，还是会有很大的性能开销的。所以，使用synchronized或其他重量级锁来处理显然不够合理。</p>
 <h2 id="非阻塞同步-乐观"><a href="#非阻塞同步-乐观" class="headerlink" title="非阻塞同步(乐观)"></a>非阻塞同步(乐观)</h2><p>乐观的解决方案，顾名思义，就是很大度乐观，每次操作数据的时候，都认为别的线程不会参与竞争修改，也不加锁。如果操作成功了那最好；如果失败了，比如中途确有别的线程进入并修改了数据（依赖于冲突检测），也不会阻塞，可以采取一些补偿机制，一般的策略就是反复重试。很显然，这种思想相比简单粗暴利用锁来保证同步要合理的多。</p>
@@ -525,15 +524,15 @@ var _hmt = _hmt || [];
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">android</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">https</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">dubbo</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">http</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">iptables</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -541,11 +540,11 @@ var _hmt = _hmt || [];
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">hexo</a>
+                <a href="javascript:void(0)" class="js-tag color4">iptables</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">mybatis-generator</a>
+                <a href="javascript:void(0)" class="js-tag color5">hexo</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -557,7 +556,11 @@ var _hmt = _hmt || [];
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">https</a>
+                <a href="javascript:void(0)" class="js-tag color5">http</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">mybatis-generator</a>
               </li>
             
             <div class="clearfix"></div>
